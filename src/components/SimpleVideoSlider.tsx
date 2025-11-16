@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import Slider from "@react-native-community/slider";
 import { CropData } from "../types";
@@ -95,210 +89,85 @@ export const SimpleVideoSlider: React.FC<SimpleVideoSliderProps> = ({
     videoDuration > 0 ? (FIXED_DURATION / videoDuration) * 100 : 0;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.videoContainer}>
+    <View className="items-center py-2">
+      <View
+        className="bg-black rounded-2xl overflow-hidden mb-8 shadow-lg"
+        style={{ width: SCRUBBER_WIDTH, height: SCRUBBER_WIDTH * 0.5625 }}
+      >
         <Video
           ref={videoRef}
           source={{ uri: videoUri }}
-          style={styles.video}
+          style={{ flex: 1 }}
           useNativeControls
           resizeMode={ResizeMode.CONTAIN}
           shouldPlay={false}
         />
       </View>
 
-      <View style={styles.scrubberContainer}>
+      <View className="w-full items-center">
         {/* Selected Time Display */}
-        <View style={styles.timeContainer}>
-          <Text style={styles.timeText}>
+        <View className="items-center mb-5 bg-slate-600/20 rounded-xl p-4 border border-slate-600/30">
+          <Text className="text-xl font-bold text-white mb-1">
             {formatTime(startTime)} - {formatTime(endTime)}
           </Text>
-          <Text style={styles.durationText}>5 Second Clip</Text>
+          <Text className="text-xs text-slate-400 font-medium uppercase tracking-wide">
+            5 Second Clip
+          </Text>
         </View>
 
         {/* Visual Timeline */}
-        <View style={styles.timelineContainer}>
-          <View style={styles.timeline}>
+        <View className="mb-5" style={{ width: SCRUBBER_WIDTH }}>
+          <View className="h-2 relative rounded overflow-hidden">
             {/* Full video timeline */}
-            <View style={styles.fullTimeline} />
+            <View className="absolute top-0 left-0 right-0 h-2 bg-slate-600/40 rounded" />
 
             {/* Selected 5-second range */}
             <View
-              style={[
-                styles.selectedRange,
-                {
-                  left: `${selectedStartPercent}%`,
-                  width: `${selectedWidthPercent}%`,
-                },
-              ]}
+              className="absolute top-0 h-2 bg-[#735de4] rounded shadow-md shadow-[#735de4]/40"
+              style={{
+                left: `${selectedStartPercent}%`,
+                width: `${selectedWidthPercent}%`,
+              }}
             />
 
             {/* Current playback position */}
             <View
-              style={[styles.currentPosition, { left: `${progressPercent}%` }]}
+              className="absolute -top-0.5 w-0.5 h-3 bg-emerald-500 rounded-sm shadow-sm shadow-emerald-500/60"
+              style={{ left: `${progressPercent}%` }}
             />
           </View>
         </View>
 
         {/* Slider - moves the 5-second window */}
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>Move 5-second window:</Text>
+        <View
+          className="bg-slate-600/20 rounded-xl p-4 mb-3 border border-slate-600/30"
+          style={{ width: SCRUBBER_WIDTH }}
+        >
+          <Text className="text-sm font-semibold text-slate-400 mb-2 uppercase tracking-wide">
+            Move 5-second window:
+          </Text>
           <Slider
-            style={styles.slider}
+            style={{ width: '100%', height: 40 }}
             minimumValue={0}
             maximumValue={Math.max(0, videoDuration - FIXED_DURATION)}
             value={startTime}
             onValueChange={handleRangeChange}
             onSlidingComplete={playSelectedSegment}
-            minimumTrackTintColor="#4f30e8"
+            minimumTrackTintColor="#735de4ff"
             maximumTrackTintColor="rgba(71, 85, 105, 0.5)"
-            thumbTintColor="#4f30e8"
+            thumbTintColor="#735de4ff"
           />
         </View>
 
         {/* Time Labels */}
-        <View style={styles.timeLabels}>
-          <Text style={styles.timeLabelText}>0:00</Text>
-          <Text style={styles.timeLabelText}>{formatTime(videoDuration)}</Text>
+        <View
+          className="flex-row justify-between px-4 mb-6"
+          style={{ width: SCRUBBER_WIDTH }}
+        >
+          <Text className="text-xs text-slate-400 font-medium">0:00</Text>
+          <Text className="text-xs text-slate-400 font-medium">{formatTime(videoDuration)}</Text>
         </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  videoContainer: {
-    width: SCRUBBER_WIDTH,
-    height: SCRUBBER_WIDTH * 0.5625,
-    backgroundColor: "#000",
-    borderRadius: 16,
-    overflow: "hidden",
-    marginBottom: 32,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  video: {
-    flex: 1,
-  },
-  scrubberContainer: {
-    width: "100%",
-    alignItems: "center",
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#ffffff",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  timeContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-    backgroundColor: "rgba(71, 85, 105, 0.2)",
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "rgba(71, 85, 105, 0.3)",
-  },
-  timeText: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#ffffff",
-    marginBottom: 4,
-  },
-  durationText: {
-    fontSize: 12,
-    color: "rgba(148, 163, 184, 1)",
-    fontWeight: "500",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-
-  // Timeline Visual
-  timelineContainer: {
-    width: SCRUBBER_WIDTH,
-    marginBottom: 20,
-  },
-  timeline: {
-    height: 8,
-    position: "relative",
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  fullTimeline: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 8,
-    backgroundColor: "rgba(71, 85, 105, 0.4)",
-    borderRadius: 4,
-  },
-  selectedRange: {
-    position: "absolute",
-    top: 0,
-    height: 8,
-    backgroundColor: "#4f30e8",
-    borderRadius: 4,
-    shadowColor: "#4f30e8",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  currentPosition: {
-    position: "absolute",
-    top: -2,
-    width: 3,
-    height: 12,
-    backgroundColor: "#10b981",
-    borderRadius: 1.5,
-    shadowColor: "#10b981",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.6,
-    shadowRadius: 2,
-    elevation: 3,
-  },
-
-  // Slider
-  sliderContainer: {
-    width: SCRUBBER_WIDTH,
-    backgroundColor: "rgba(71, 85, 105, 0.2)",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "rgba(71, 85, 105, 0.3)",
-  },
-  sliderLabel: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "rgba(148, 163, 184, 1)",
-    marginBottom: 8,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  slider: {
-    width: "100%",
-    height: 40,
-  },
-  timeLabels: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: SCRUBBER_WIDTH,
-    paddingHorizontal: 16,
-    marginBottom: 24,
-  },
-  timeLabelText: {
-    fontSize: 12,
-    color: "rgba(148, 163, 184, 1)",
-    fontWeight: "500",
-  },
-});
