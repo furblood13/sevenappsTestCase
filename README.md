@@ -1,36 +1,30 @@
 Video Diary App
 
-# Screenshots Folder 📸
-
-Place your app screenshots here with the following names:
-
-## Required Screenshots:
-
 ### Main Screens
 
-- `main-screen.png` - Main screen with video grid
-- `empty-state.png` - Empty state with Lottie animation
-- `grid-view.png` - Grid view layout
-- `list-view.png` - List view layout
+<div style="display: flex; gap: 10px;">
+  <img src="./screenshots/main.png" width="250" />
+  <img src="./screenshots/list.png" width="250" />
+  <img src="./screenshots/grid.png" width="250" />
+</div>
 
-### Video Creation Flow
+### Crop Modal
 
-- `video-selection.png` - Step 1: Video selection screen
-- `video-trimming.png` - Step 2: Video trimming with slider
-- `add-details.png` - Step 3: Add name and description
+<img src="./screenshots/crop.png" width="300" />
 
-### Video Details
+### Adding Detail Modal
 
-- `video-details.png` - Video details screen (view mode)
-- `edit-mode.png` - Video details screen (edit mode)
+<img src="./screenshots/addDetail.png" width="300" />
 
-## Recommended Size
+### Video Selection Modal
 
-- Width: 1170px (iPhone 13/14 Pro Max)
-- Height: 2532px
-- Format: PNG with transparency (if needed)
+<img src="./screenshots/select.png" width="300" />
 
-## 🎯 Features
+### Detail Screen
+
+<img src="./screenshots/detail.png" width="300" />
+
+## Features
 
 - **Video Selection & Trimming**: Select videos from gallery and trim them to 5-second segments
 - **Video Gallery**: Browse your video entries in grid or list layout
@@ -102,43 +96,6 @@ Crop Modal
 - **Prettier** (^3.4.2) - Code formatting
   - prettier-plugin-tailwindcss - Tailwind class sorting
 
-## 📁 Project Structure
-
-```
-testcase02/
-├── app/                          # Expo Router pages
-│   ├── _layout.tsx              # Root layout with navigation
-│   ├── index.tsx                # Main screen (video gallery)
-│   ├── crop-modal.tsx           # Video selection & trimming modal
-│   ├── details/
-│   │   └── [videoId].tsx        # Video details & editing screen
-│   └── global.css               # Global Tailwind styles
-│
-├── src/
-│   ├── components/              # Reusable components
-│   │   └── SimpleVideoSlider.tsx
-│   ├── hooks/                   # Custom hooks
-│   │   └── useVideoTrimming.ts
-│   ├── store/                   # Zustand stores
-│   │   └── videoStore.ts
-│   ├── types/                   # TypeScript types
-│   │   └── index.ts
-│   └── utils/                   # Utility functions
-│       └── videoUtils.ts
-│
-├── assets/                      # Images, Lottie animations
-│   ├── empty.json              # Empty state animation
-│   ├── Gallery.json            # Gallery selection animation
-│   └── UFO404.json             # 404 animation
-│
-├── tailwind.config.js          # Tailwind configuration
-├── metro.config.js             # Metro bundler config
-├── babel.config.js             # Babel configuration
-├── tsconfig.json               # TypeScript configuration
-└── package.json                # Dependencies
-
-```
-
 ### Step 1: Install Dependencies
 
 ```bash
@@ -193,13 +150,6 @@ does not support Expo go beacuse expo-trim-video package does not support expo g
 ## Styling
 
 The app uses **NativeWind** for styling, which brings Tailwind CSS to React Native:
-
-### Color Palette
-
-- Background: `#141121` (dark purple)
-- Primary: `#1c6e5d` (teal green)
-- Accent: `#4f30e8` (purple)
-- Text: `#ffffff` (white) / `#94a3b8` (slate)
 
 ## 🔧 Configuration Files
 
@@ -291,13 +241,6 @@ const { videos, addVideo, removeVideo, updateVideo, getVideo } =
   useVideoStore();
 ```
 
-**Available Actions:**
-
-- `addVideo(video)` - Add new video entry
-- `removeVideo(id)` - Delete video by ID
-- `updateVideo(id, updates)` - Update video name/description
-- `getVideo(id)` - Get single video by ID
-
 ## Troubleshooting
 
 ### Issue: "Couldn't find a navigation context"
@@ -306,7 +249,7 @@ const { videos, addVideo, removeVideo, updateVideo, getVideo } =
 
 **Solution**: Download the video in Photos app first, then try selecting again.
 
-## 📝 Scripts
+## Scripts
 
 ```json
 {
@@ -317,7 +260,7 @@ const { videos, addVideo, removeVideo, updateVideo, getVideo } =
 }
 ```
 
-## 🔐 Permissions Required
+## Permissions Required
 
 - **Media Library**: To access and select videos
 - **Camera Roll**: To save processed videos (iOS)
